@@ -17,7 +17,7 @@ def validate_test_case(test_name, log_group, log_stream, validator_func):
     print('RUNNING: ' + test_name)
     response = client.get_log_events(logGroupName=log_group, logStreamName=log_stream)
     # test length
-    if len(response['events']) != 1000:
+    if len(response['events']) != 100000:
         print(str(len(response['events'])) + ' events found in CloudWatch')
         sys.exit('TEST_FAILURE: incorrect number of log events found')
 
@@ -55,7 +55,7 @@ def validate_metric(test_name, metric_namespace, dim_key, dim_value, expected_sa
             return True
         attempts += 1
         print(f"No metrics yet. Sleeping before trying again. Attempt # {attempts}")
-        time.sleep(2)
+        time.sleep(5)
 
     sys.exit('TEST_FAILURE: failed to validate metric existence in CloudWatch')
 
@@ -86,7 +86,7 @@ def metric_exists(metric_namespace, dim_key, dim_value, expected_samples):
     print(f"Did not find {metric_namespace}/{metric_name}/{dim_key}:{dim_value}")
     return False
 
-    
+
 def get_expected_metric_name():
     with open(os.environ.get('EMF_METRIC_NAME_PATH'), 'r') as file:
         return file.read().replace('\n', '')
