@@ -4,11 +4,11 @@
 # then sleeps for 20
 # then exits
 
-for i in {0..99999}
+for i in {0..999}
 do
     echo $i
 done
 
-sleep 20
+sleep 30
 
 exit 0
